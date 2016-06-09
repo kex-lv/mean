@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>kex</title>
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+
+</head>
+<body ng-app="kex">
+	<nav class="navbar navbar-default pull-right" ng-controller="NavCtrl">
+		<ul class="nav navbar-nav">
+			<li ng-show="isLoggedIn()"><a>{{ currentUser }}</a></li>
+			<li ng-show="isLoggedIn()"><a href="" ng-click="logOut()">Log Out</a></li>
+			<li ng-show="isLoggedIn()"><a href="/#/login">Log In</a></li>
+			<li ng-show="isLoggedIn()"><a href="/#/register">Register</a></li>
+		</ul>
+	</nav>
+
+	<div class="row">
+		<div class="col-md-6 col-md-6-offset-3">
+			<ui-view></ui-view>
+		</div>
+	</div>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.10/angular-ui-router.js"></script>
+	<script src="javascripts/angularApp.js"></script>
+
+	<script type="text/ng-template" id="/dashboard.html">
+		<div class="page-header">
+			<h1>Calendar</h1>
+		</div>
+	</script>
+
+	<script type="text/ng-template" id="/clients.html">
+		<div class="page-header">
+			<h1>Clients</h1>
+		</div>
+
+		<div ng-repeat="client in clients | orderBy:'-name'">
+			<span>{{client.name}}</span>
+			<span>{{client.email}}</span>
+			<span style="font-size:20px; margin-left:10px;">
+				<a ng-show="client.has_invoices" href="invoices">Invoices</a>
+				<span ng-hide="client.has_invoices">Invoices</span>
+			</span>
+		</div>
+
+		<form ng-submit="addClient()" ng-show="isLoggedIn()" style="margin-top:30px;">
+			<h3>Add new client</h3>
+			<div class="form-group">
+				<input type="text" class="form-control" placeholder="Name" ng-model="name"></input>
+			</div>
+			<div class="form-group">
+				<input type="text" class="form-control" placeholder="Email" ng-model="email"></input>
+			</div>
+			<button type="submit" class="btn btn-primary">Add</button>
+		</form>
+
+		<div ng-hide="isLoggedIn()">
+			<h3>You need to <a href="/#/login">Log In</a> or <a href="/#/register">Register</a> before you can add client.</h3>
+		</div>
+	</script>
+
+	<script type="text/ng-template" id="/invoices.html">
+		<div class="page-header">
+			<h1>I</h1>
+		</div>
+	</script>
+
+	<script type="text/ng-template" id="/clients2.html">
+		<div class="page-header">
+			<h1>Clients2</h1>
+		</div>
+	</script>
+
+	<script type="text/ng-template" id="/register.html">
+		<div class="page-header">
+			<h1>Kex</h1>
+		</div>
+
+		<div ng-show="error" class="alert alert-danger row">
+			<span>{{error.message}}</span>
+		</div>
+
+		<form ng-submit="register()" style="margin-top:30px;">
+			<h3>Register</h3>
+			<div class="form-group">
+				<input type="text" class="form-control" placeholder="Username" ng-model="user.username"></input>
+			</div>
+			<div class="form-group">
+				<input type="password" class="form-control" placeholder="Password" ng-model="user.password"></input>
+			</div>
+			<button type="submit" class="btn btn-primary">Add</button>
+		</form>
+	</script>
+
+	<script type="text/ng-template" id="/login.html">
+		<div class="page-header">
+			<h1>Kex</h1>
+		</div>
+
+		<div ng-show="error" class="alert alert-danger row">
+			<span>{{error.message}}</span>
+		</div>
+
+		<form ng-submit="logIn()" style="margin-top:30px;">
+			<h3>Log In</h3>
+			<div class="form-group">
+				<input type="text" class="form-control" placeholder="Username" ng-model="user.username"></input>
+			</div>
+			<div class="form-group">
+				<input type="password" class="form-control" placeholder="Password" ng-model="user.password"></input>
+			</div>
+			<button type="submit" class="btn btn-primary">Login</button>
+		</form>
+	</script>
+
+</body>
+</html>
