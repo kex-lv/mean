@@ -147,7 +147,7 @@ app.factory('auth', ['$http', '$window', function($http, $window) {
 		});
 	};
 
-	auth.logOut = function() {
+	auth.logOut = function() {console.log('logout');
 		$window.localStorage.removeItem('kex-token');
 	};
 
@@ -171,6 +171,14 @@ app.controller('AuthCtrl', [
 				$state.go('clients');
 			});
 		};
+
+		$scope.logIn = function() {
+			auth.logIn($scope.user).error(function(error) {
+				$scope.error = error;
+			}).then(function() {
+				$state.go('clients');
+			});
+		}
 	}
 ]);
 
